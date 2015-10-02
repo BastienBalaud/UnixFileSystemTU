@@ -230,9 +230,15 @@ namespace TUFileSytem
 			Assert.AreEqual(racine.canRead(),false);
 		}
 		[Test ()]
-		public void chmodIncorrect()
+		public void chmodIncorrectSup()
 		{
 			racine.chmod (8);
+			Assert.AreEqual (racine.permission, 6);
+		}
+		[Test ()]
+		public void chmodIncorrectInf()
+		{
+			racine.chmod (-8);
 			Assert.AreEqual (racine.permission, 6);
 		}
 		[Test ()]
@@ -265,6 +271,21 @@ namespace TUFileSytem
 			racine.mkdir ("JAVA");
 			Assert.AreEqual (racine.delete ("JAVA"), true);
 		}
+		[Test()]
+		public void deleteNoName()
+		{
+			racine.mkdir ("JAVA");
+			Assert.AreEqual(racine.delete("FLASH"),false);
+		}
+		[Test()]
+		public void deletePermIncorrect()
+		{
+			racine.mkdir ("JAVAPOWA");
+			racine.chmod (4);
+			Assert.AreEqual (racine.delete ("JAVAPOWA"), false);
+		}
+		[Test()]
+		public void 
 	}
 }
 
