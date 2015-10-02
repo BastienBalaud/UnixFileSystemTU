@@ -300,6 +300,12 @@ namespace TUFileSytem
 			Assert.AreEqual (racine.search ("JAVA").Count (), 1);
 		}
 		[Test()]
+		public void searchEmpty()
+		{
+			List<File> test = new List<File> ();
+			Assert.AreEqual (racine.search ("JAVA"), test);
+		}
+		[Test()]
 		public void searchPermission0()
 		{
 			racine.mkdir ("JAVA");
