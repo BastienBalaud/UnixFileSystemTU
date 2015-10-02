@@ -76,7 +76,7 @@ namespace TUFileSytem
 		{
 			racine.mkdir ("JAVAPOWA");
 			Directory JAVAPOWA =(Directory) racine.cd ("JAVAPOWA");
-			Assert.AreEqual (JAVAPOWA.permission , 6);
+			Assert.AreEqual (JAVAPOWA.permission , 4);
 		}
 		[Test ()]
 		public void mkdirPermissionIncorrect ()
@@ -114,6 +114,14 @@ namespace TUFileSytem
 			Assert.AreEqual (racine.ls (), racine.content);
 		}
 		[Test ()]
+		public void lsReturnContentPermission ()
+		{
+			File JAVA = new File ("JAVA", racine);
+			racine.chmod (0);
+			racine.content.Add (JAVA);
+			Assert.AreEqual (racine.ls (), null);
+		}
+		[Test ()]
 		public void parentGoodName ()
 		{
 			racine.mkdir ("OPENJDK");
@@ -139,7 +147,7 @@ namespace TUFileSytem
 			Assert.AreEqual(racine.createNewFile("Test"),false);
 		}
 		[Test ()]
-		public void CreatePermissionIncorrect ()
+		public void createPermissionIncorrect ()
 		{
 			racine.chmod (4);
 			Assert.AreEqual(racine.createNewFile("MARCHEPO"),false);
@@ -285,7 +293,20 @@ namespace TUFileSytem
 			Assert.AreEqual (racine.delete ("JAVAPOWA"), false);
 		}
 		[Test()]
-		public void 
+		public void search()
+		{
+			racine.mkdir ("JAVA");
+			racine.mkdir("JAVA8");
+			Assert.AreEqual (racine.search ("JAVA").Count (), 1);
+		}
+		[Test()]
+		public void searchPermission0()
+		{
+			racine.mkdir ("JAVA");
+			racine.mkdir("JAVA8");
+			racine.chmod (0);
+			Assert.AreEqual (racine.search ("JAVA"), null);
+		}
 	}
 }
 
