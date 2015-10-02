@@ -79,10 +79,25 @@ namespace TUFileSytem
 			Assert.AreEqual (JAVAPOWA.permission , 6);
 		}
 		[Test ()]
+		public void mkdirPermissionIncorrect ()
+		{
+			racine.chmod (4);
+			Assert.AreEqual(racine.mkdir("MARCHEPO"),false);
+		}
+		[Test ()]
 		public void cdReturnSameName ()
 		{
 			racine.mkdir ("test");
 			Assert.AreEqual (racine.cd("test").name, "test");
+
+		}
+		[Test ()]
+		public void cdIncorrectPermission ()
+		{
+			racine.mkdir ("JAVA");
+			Directory JAVA =(Directory) racine.cd ("JAVA");
+			JAVA.chmod (0);
+			Assert.AreEqual (racine.cd("JAVA"), null);
 
 		}
 		[Test ()]
@@ -122,6 +137,12 @@ namespace TUFileSytem
 		{
 			Assert.AreEqual(racine.createNewFile("Test"),true);
 			Assert.AreEqual(racine.createNewFile("Test"),false);
+		}
+		[Test ()]
+		public void CreatePermissionIncorrect ()
+		{
+			racine.chmod (4);
+			Assert.AreEqual(racine.createNewFile("MARCHEPO"),false);
 		}
 		[Test ()]
 		public void getPathRoot()
@@ -213,6 +234,36 @@ namespace TUFileSytem
 		{
 			racine.chmod (8);
 			Assert.AreEqual (racine.permission, 6);
+		}
+		[Test ()]
+		public void renameTest()
+		{
+			racine.mkdir ("JAVA");
+			Directory JAVA =(Directory) racine.cd ("JAVA");
+			racine.rename ("JAVA", "OPENJDK");
+			Assert.AreEqual (JAVA.name, "OPENJDK");
+		}
+		[Test ()]
+		public void renameTestIncorrect()
+		{
+			racine.mkdir ("JAVA");
+			racine.mkdir ("ORACLE");
+			Assert.AreEqual (racine.rename ("JAVA", "ORACLE"), false);
+		}
+		[Test ()]
+		public void renamePermIncorrect()
+		{
+			racine.mkdir ("JAVA");
+			racine.mkdir ("ORACLE");
+			Directory JAVA =(Directory) racine.cd ("JAVA");
+			JAVA.chmod (4);
+			Assert.AreEqual (racine.rename ("JAVA", "ORACLE"), false);
+		}
+		[Test ()]
+		public void delete()
+		{
+			racine.mkdir ("JAVA");
+			Assert.AreEqual (racine.delete ("JAVA"), true);
 		}
 	}
 }
